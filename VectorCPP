@@ -1,0 +1,137 @@
+//VECTOR IMPLEMENTATION IN C++. print statements are for debugging and understanding purposes.
+
+#include <iostream>
+
+using namespace std;
+template <typename Object>
+class Vector
+{
+   public:
+       explicit Vector(int initSize=0):theSize(initSize),theCapacity(initSize+SPARE_CAPACITY)
+       {
+           objects =new Object[theCapacity];
+           cout<<"Explicit constructor called\n";  //Creation of an array of datatype Object
+       }
+       Vector(const Vector& rhs):objects(NULL)//Copy constructor
+       {
+           operator=(rhs);
+           cout<<"Copy constructor\n";
+       }
+       ~Vector()                              //Destructor
+       {
+           delete [] objects;
+           cout<<"Destructor\n";
+       }
+
+       const Vector& operator=(const Vector&rhs)
+       {
+           if(this!=&rhs)
+           {
+               delete [] objects;
+               theSize=rhs.size();
+               theCapacity=rhs.theCapacity;
+
+               objects=new Object[capacity()];
+               for(int k=0;k<size();k++)
+                objects[k]=rhs.objects[k];
+           }
+           cout<<"Operator = called\n";
+           return *this;
+       }
+
+       void resize(int newSize)
+       {
+           if(newSize> theCapacity)
+            reserve(newSize*2+1);
+           theSize=newSize;
+           cout<<"Resize called\n";
+       }
+
+       void reserve(int newCapacity)
+       {
+           if(newCapacity<theSize)
+            return;
+
+           Object *oldArray= objects;
+           objects=new Object[newCapacity];
+           for(int k=0;k<theSize;k++)
+            objects[k]=oldArray[k];
+
+           theCapacity=newCapacity;
+           delete []oldArray;
+           cout<<"Reserve called\n";
+       }
+
+       Object& operator[](int index)
+       {
+           cout<<"operator[] called\n";
+           return objects[index];
+
+       }
+       const Object& operator[](int index)const
+       {
+           cout<<"const operator[] called\n";
+           return objects[index];
+
+       }
+
+       bool empty()const
+       {
+           return size()==0;
+       }
+       int size()const{
+       return theSize;}
+       int capacity()const{
+       return theCapacity;}
+
+       void push_back(const Object &x)
+       {
+           if(theSize==theCapacity)
+            reserve(2*theCapacity+1);
+           objects[theSize++]=x;
+       }
+       void pop_back()
+       {theSize--;}
+
+       const Object& back()const
+       {
+           return objects[theSize-1];
+       }
+
+       typedef Object* iterator;
+       typedef const Object* const_iterator;
+
+       iterator begin()
+       {return &objects[0];}
+       iterator end()
+       {return objects[size()];}
+        const_iterator begin()const
+       {return &objects[0];}
+       const_iterator end()const
+       {return objects[size()];}
+
+       enum{SPARE_CAPACITY=16};
+   private:
+       int theSize;
+       int theCapacity;
+       Object* objects;
+
+
+};
+int main()
+{
+    Vector <int> v[2];
+    v[0].push_back(7);
+    v[1].push_back(8);
+    cout<<v[0][0]<<"\n";
+
+
+    Vector <int> v2[2] ;
+    *v2= *v;
+    cout<<v2[0][0]<<"\n";
+
+    Vector <int> v3[2]=v2;
+    //Vector <int> v4= v3;
+    return 0;
+
+}
