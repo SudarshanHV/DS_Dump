@@ -1,0 +1,67 @@
+//RESERVE ROUTINES YET TO BE ADDED.
+
+
+#include <iostream>
+#include <stdio.h>
+using namespace std;
+
+template <typename Object>
+class Stack
+{
+private:
+    int topOfStack;
+    int theSize;
+    int theCapacity;
+    Object* objects;
+public:
+    Stack(int init=0):theSize(init),theCapacity(SPARE_CAPACITY+init)
+    {
+        objects= new Object[theCapacity];
+        topOfStack=-1;
+    }
+
+    Stack(const Object& rhs):objects(NULL)//COPY CONSTRUCTOR
+    {
+        operator=(rhs);
+        topOfStack= &objects[0];
+    }
+
+    const Stack& operator=(const Stack& rhs)
+    {
+
+    }
+
+    bool isEmpty()
+    {return theSize==0;}
+    int size()
+    {return theSize;}
+    int capacity()
+    {return theCapacity;}
+
+    void pop()
+    {
+        theSize--;
+        topOfStack--;
+    }
+
+    void push(const Object& x)
+    {
+        objects[theSize++]=x;
+        topOfStack++;
+    }
+    Object top()const
+    {
+        return objects[topOfStack];
+    }
+
+    enum{SPARE_CAPACITY=16};
+};
+int main()
+{
+   Stack <int> s;
+
+   s.push(7);
+   cout<<s.top();
+   s.pop();
+   return 0;
+}
