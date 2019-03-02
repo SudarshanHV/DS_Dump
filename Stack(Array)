@@ -1,5 +1,7 @@
-//RESERVE ROUTINES YET TO BE ADDED.
-
+//NOTE:: Additional Routines like pushing multiple elements can be added by overloading push() method and using a for loop.
+//THIS IS JUST A BASIC IMPLEMENTATION TO GET A HANG OF:
+//1)HOW A STACK WORKS.
+//2)HOW MEMORY ALLOCATION IS DONE.
 
 #include <iostream>
 #include <stdio.h>
@@ -46,22 +48,47 @@ public:
 
     void push(const Object& x)
     {
+        if(theSize==theCapacity)
+            reserve(theCapacity*2+1);
         objects[theSize++]=x;
         topOfStack++;
     }
     Object top()const
     {
+        if(topOfStack>=0)
         return objects[topOfStack];
+        else
+        {
+         cout<<"ERROR::Stack is empty\n";
+         return -1;
+        }
+    }
+    void reserve(int newCapacity)
+    {
+        if(newCapacity<theSize)
+            return;
+        Object *oldArray=objects;
+        objects=new Object[newCapacity];
+        for(int k=0;k<theSize;k++)
+            objects[k]=oldArray[k];
+        theCapacity=newCapacity;
+        cout<<"Reserve called\n";
+        delete []oldArray;
     }
 
     enum{SPARE_CAPACITY=16};
 };
 int main()
 {
+    //PLAGROUND TO DEBUG THE Class.
    Stack <int> s;
 
    s.push(7);
+   s.push(8);
+   s.push(9);
+   s.push(10);s.push(10);
    cout<<s.top();
    s.pop();
+   cout<<s.top();
    return 0;
 }
