@@ -1,0 +1,143 @@
+//BINARY SEARCH TREE IMPLEMENTATION. STILL INCOMPLETE. WILL UPDATE ONCE DONE.
+
+
+#include <iostream>
+
+using namespace std;
+//DUPLICATES NOT ACCOUNTED FOR IN THIS CLASS.
+//KEEP TRACK OF NUMBER OF DUPLICATES USING A VARIABLE.
+template <typename Comparable>
+class BST
+{
+public:
+    BST();
+    BST(const BST& rhs)
+    {
+        operator=(rhs);
+    }
+    const BST& operator=(const BST& rhs)
+    {
+        if(this!=rhs)
+        {
+            makeEmpty();
+            root=clone(rhs.root);
+        }
+        return *this;
+    }
+    ~BST()
+    {
+        makeEmpty();
+    }
+
+    const Comparable &findMin() const
+    {
+        return findMin(root);
+    }
+    const Comparable &findMax() const
+    {
+        return findMax(root);
+    }
+    bool contains(const Comparable& x)const
+    {
+        return contains(x,root);
+    }
+    bool isEmpty()const;
+    void printTree()const
+    {
+        printTree(root);
+    }
+
+    void makeEmpty()
+    {
+        makeEmpty(root);
+    }
+    void insert(const Comparable& x)
+    {
+        insert(x,root);
+    }
+    void remove(const Comparable& x)
+    {
+        remove(x,root);
+    }
+
+
+private:
+    struct BinaryNode
+    {
+        Comparable element;
+        BinaryNode *left;
+        BinaryNode *right;
+
+        BinaryNode(const Comparable& theElement, BinaryNode *lt,BinaryNode *rt)
+        :element(theElement),left(lt),right(rt){}
+    };
+
+    BinaryNode *root;
+
+    void insert(const Comparable &x,BinaryNode * &t)const
+    {
+        if(t==NULL)//If no node exists at this point, correct insertion
+            t=new BinaryNode(x,NULL,NULL);
+        else if(x<t->element)
+            insert(x,t->left);
+        else if(x>t->element)
+            insert(x,t->right);
+        else
+            ;//DO NOTHING, DUPLICATE.
+    }
+    void remove(const Comparable &x,BinaryNode * &t)const
+    {
+
+    }
+    BinaryNode* findMin(BinaryNode *t)const
+    {
+        //RECURSION IMPLEMENTATION
+        if(t==NULL)
+            return NULL;
+        if(t->left=NULL)
+            return t;
+        return findMin(t->left);
+    }
+    BinaryNode* findMax(BinaryNode *t)const
+    {
+        //USING WHILE LOOP.
+        if(t!=NULL)
+            while(t->right!=NULL)
+            t=t->right;
+        return t;
+        //Q::WHY IS IT SAFE TO CHANGE POINTERS HERE??
+    }
+    bool contains(const Comparable& x, BinaryNode *t)const
+    {
+        if(t==NULL)
+            return false;
+        else if(t->element<x)
+            return contains(x,t->right);
+        else if(t->element>x)
+            return contains(x,t->left);
+        else
+            return true; //x exists inside the tree.
+    }
+    void makeEmpty(BinaryNode * &t)
+    {
+        if(t!=NULL)
+        {
+            makeEmpty(t->left);
+            makeEmpty(t->right);
+            delete t;
+        }
+        t=NULL;
+    }
+    void printTree(BinaryNode *t)const;
+    BinaryNode* clone(BinaryNode *t)const
+    {
+        if(t==NULL)
+            return NULL;
+        return new BinaryNode(t->element,clone(t->left),clone(t->right));
+    }
+};
+int main()
+{
+    cout << "Hello world!" << endl;
+    return 0;
+}
