@@ -1,6 +1,7 @@
 for(int i=0;i<n-1;i++){
-  for(int j=i;j<n;j++){
-    //record min element
+  minind=i;
+  for(int j=i+1;j<n;j++){
+    //record min element index now, comparing with mindind
   }
   swap arr[i] with minelem.
 }
