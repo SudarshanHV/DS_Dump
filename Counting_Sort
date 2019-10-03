@@ -1,1 +1,33 @@
 
+//Counting Sort Algorithm. CPP.
+#include <iostream>
+#include <bits/stdc++.h>
+using namespace std;
+
+ifstream f("data.in");
+ofstream g("data.out");
+
+int Arr[11],n,maximum;//Inputs range from 0 to 10
+int main()
+{
+    f>>n;
+    for(int i=1;i<=n;i++)
+    {
+        int x;
+        f>>x;
+        Arr[x]++;               //Incrementing the position by one if number is present.
+        maximum=max(x,maximum); //Optimization
+    }
+    for(int i=0;i<=maximum;i++)
+    {
+        if(Arr[i]>0)
+        {
+             for(int j=1;j<=Arr[i];j++)
+             {
+                 cout<<i<<" ";
+             }
+        }
+    }
+
+}
+© 2019 GitHub, Inc.
