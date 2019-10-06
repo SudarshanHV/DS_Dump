@@ -1,1 +1,58 @@
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+using namespace std;
+int findmidsum(int a[],int low,int high,int m){
+	int leftsum=-2000;
+	int sum=0;
+	for(int i=m;i>=low;i--){
+		sum+=a[i];
+		if(sum>leftsum){
+			leftsum=sum;
+		}
+	}
+	int rightsum=-2000;
+	sum=0;
+	for(int i=m+1;i<=high;i++){
+		sum+=a[i];
+		if(sum>rightsum){
+			rightsum=sum;
+		}
+	}
+	return leftsum+rightsum;
+}
 
+int findmax(int a[],int low,int high){
+	if(high==low){
+		return a[high];
+	}
+	int mid=(low+high)/2;
+	int s1=findmax(a,low,mid);
+	int s2=findmax(a,mid+1,high);
+	int s3=findmidsum(a,low,high,mid);
+	if(s1>=s2&&s1>=s3){
+		return s1;
+	}
+	else if(s2>=s1&&s2>=s3){
+		return s2;
+	}
+	else
+	return s3;
+}
+
+int main() {
+	int t;
+	scanf("%d",&t);
+	while(t--){
+		int n;
+		scanf("%d",&n);
+		int a[n];
+		for(int i=0;i<n;i++){
+			scanf("%d",&a[i]);
+		}
+		int p=0,q=n-1;
+		int maxsum= findmax(a,p,q);
+		printf("%d\n",maxsum);
+	}
+	return 0;
+}
