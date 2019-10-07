@@ -1,1 +1,25 @@
+def LCS(x,y,i,j,arr):
+    if(arr[i][j]==-1):
+        if(x[i]==y[j]):
+            arr[i][j]=LCS(x,y,i-1,j-1,arr)+1
+        else:
+            arr[i][j]=max(LCS(x,y,i,j-1,arr),LCS(x,y,i-1,j,arr))
+    return arr[i][j] 
 
+t=int(input())
+for i in range(0,t):
+    s1=input()
+    s1=' '+s1
+    s2=input()
+    s2=' '+s2
+    m=len(s1)
+    n=len(s2)
+    print(m)
+    print(n)
+    arr=[[-1]*(m)]*(n)
+    for x in range(0,m):
+        arr[x][0]=0
+    for x in range(0,n):
+        arr[0][x]=0
+    ans=LCS(s1,s2,m-1,n-1,arr)
+    print(ans)
